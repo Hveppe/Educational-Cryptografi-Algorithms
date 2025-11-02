@@ -45,18 +45,88 @@ bigInteger &bigInteger::operator=(const long long &number) {
     return *this;
 }
 
-bigInteger &bigInteger::operator=(const std::string &number) {
-    *this = number;
-    return *this;
-}
-
-//---------------------------Comparesion Operators---------------------------
+//---------------------------Comparison Operators---------------------------
 bool bigInteger::operator==(const bigInteger &number) const {
     return (this->value == number.value && this->sign == number.sign);
 }
 
 bool bigInteger::operator==(const long long &number) const {
     return *this == bigInteger(number);
+}
+
+bool operator==(const long long &first, const bigInteger &second) {
+    return second == first;
+}
+
+bool bigInteger::operator!=(const bigInteger &number) const {
+    return !(*this == number);
+}
+
+bool bigInteger::operator!=(const long long &number) const {
+    return !(*this == number);
+}
+
+bool operator!=(const long long &first, const bigInteger &second) {
+    return !(first == second);
+}
+
+bool bigInteger::operator<(const bigInteger &number) const {
+    if(this->sign != number.sign) {
+        return this->sign == '-';
+    }
+    if(this->sign != '+') {
+        return -*this > -number;
+    }
+
+    if(this->value.length() == number.value.length()) {
+        return this->value < number.value;
+    } else {
+        return this->value.length() < number.value.length();
+    }
+}
+
+bool bigInteger::operator<(const long long &number) const {
+    return *this < bigInteger(number);
+}
+
+bool operator<(const long long &first, const bigInteger &second) {
+    return bigInteger(first) < second;
+}
+
+bool bigInteger::operator>(const bigInteger &number) const {
+    return number < *this;
+}
+
+bool bigInteger::operator>(const long long &number) const {
+    return number < *this;
+}
+
+bool operator>(const long long &first, const bigInteger &second) {
+    return second < first;
+}
+
+bool bigInteger::operator<=(const bigInteger &number) const {
+    return *this < number || *this == number;
+}
+
+bool bigInteger::operator<=(const long long &number) const {
+    return *this < number || *this == number;
+}
+
+bool operator<=(const long long &first, const bigInteger &second) {
+    return first < second || first == second;
+}
+
+bool bigInteger::operator>=(const bigInteger &number) const {
+    return *this > number || *this == number;
+}
+
+bool bigInteger::operator>=(const long long &number) const {
+    return *this > number || *this == number;
+}
+
+bool operator>=(const long long &first, const bigInteger &second) {
+    return first > second || first == second;
 }
 
 //-------------------------------Operators----------------------------------
@@ -130,6 +200,10 @@ bigInteger operator+(const long long &first, const bigInteger &second) {
 
 bigInteger bigInteger::operator-() const {
     bigInteger result = *this;
+    if(this->sign == '-') {
+        result.sign = '+';
+        return result;
+    }
     result.sign = '-';
     return result;
 }
@@ -165,14 +239,14 @@ bigInteger bigInteger::operator-(const bigInteger &number) const{
     int borrow = 0;
 
     for(int i = first.size() - 1; i >= 0; --i) {
-        int diff = (first[i] - '0') - (second[i] - '0') - borrow;
-        if (diff < 0) {
-            diff += 10;
+        int delta = (first[i] - '0') - (second[i] - '0') - borrow;
+        if (delta < 0) {
+            delta += 10;
             borrow = 1;
         } else {
             borrow = 0;
         }
-        result[i] = diff + '0';
+        result[i] = delta + '0';
     }
 
     result.erase(0, result.find_first_not_of('0'));
@@ -261,6 +335,11 @@ bigInteger &bigInteger::operator*=(const long long &number) {
 bigInteger operator*(const long long &first, const bigInteger &second) {
     return bigInteger(first) * second;
 }
+
+bigInteger bigInteger::operator/(const bigInteger &number) const {
+
+}
+
 
 //------------------------Custom functions----------------------------------
 int bigInteger::castToInt() {

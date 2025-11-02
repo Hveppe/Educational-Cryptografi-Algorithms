@@ -21,9 +21,30 @@ struct bigInteger {
     bigInteger &operator=(const long long&);
     bigInteger &operator=(const std::string&);
 
-    // Comparesion operators
+    // Comparison operators
     bool operator==(const bigInteger&) const;
     bool operator==(const long long&) const;
+    friend bool operator==(const long long&, const bigInteger&);
+
+    bool operator!=(const bigInteger&) const;
+    bool operator!=(const long long&) const;
+    friend bool operator!=(const long long&, const bigInteger&);
+
+    bool operator<(const bigInteger&) const;
+    bool operator<(const long long&) const;
+    friend bool operator<(const long long&, const bigInteger&);
+
+    bool operator>(const bigInteger&) const;
+    bool operator>(const long long&) const;
+    friend bool operator>(const long long&, const bigInteger&);
+
+    bool operator<=(const bigInteger&) const;
+    bool operator<=(const long long&) const;
+    friend bool operator<=(const long long&, const bigInteger&);
+
+    bool operator>=(const bigInteger&) const;
+    bool operator>=(const long long&) const;
+    friend bool operator>=(const long long&, const bigInteger&);
 
     // Operators
     bigInteger operator+(const bigInteger&) const;
@@ -45,11 +66,16 @@ struct bigInteger {
     bigInteger &operator*=(const long long&);
     friend bigInteger operator*(const long long&, const bigInteger&);
 
+    bigInteger operator/(const bigInteger&) const;
+    bigInteger operator/(const long long&) const;
+    bigInteger &operator/=(const bigInteger&);
+    bigInteger &operator/=(const long long&);
+ 
     // Functions
     int castToInt();
-};
 
-// custom std::cout instruction
-std::ostream &operator<<(std::ostream &os, const bigInteger&);
+    // custom std::cout instruction
+    friend std::ostream &operator<<(std::ostream &os, const bigInteger&);
+};
 
 #endif
