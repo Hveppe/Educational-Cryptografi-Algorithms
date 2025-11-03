@@ -179,9 +179,7 @@ bigInteger bigInteger::operator+(const bigInteger &number) const {
 }
 
 bigInteger bigInteger::operator+(const long long &number) const {
-    bigInteger first = number;
-    bigInteger second = this->value;
-    return first + second;
+    return *this + bigInteger(number);
 }
 
 bigInteger &bigInteger::operator+=(const bigInteger &number) {
