@@ -9,6 +9,12 @@ struct keyRSA {
     long long e = 0;
     long long d = 0;
     long long n = 0;
+
+    friend std::ostream &operator<<(std::ostream &os, keyRSA key) {
+        os << "Public key: (e: " << key.e << ", n: " << key.n << ")" << std::endl
+           << "Private key: (d: " << key.d << ", n: " << key.n << ")";
+        return os;
+    } 
 };
 
 keyRSA generateKeysRSA(long long p, long long q);
